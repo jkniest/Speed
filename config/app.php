@@ -168,6 +168,7 @@ return [
          */
         Laravel\Tinker\TinkerServiceProvider::class,
         Barryvdh\Debugbar\ServiceProvider::class,
+        jkniest\ForceHttps\ForceHttpsServiceProvider::class,
 
         /*
          * Application Service Providers...
