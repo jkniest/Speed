@@ -2,9 +2,17 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
+/**
+ * Auth service provider
+ *
+ * @category Auth
+ * @package  Speed
+ * @author   Jordan Kniest <contact@jkniest.de>
+ * @license  MIT <https://opensource.org/licenses/MIT>
+ * @link     https://jkniest.de
+ */
 class AuthServiceProvider extends ServiceProvider
 {
     /**
@@ -24,7 +32,6 @@ class AuthServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->registerPolicies();
-
         //
     }
 }

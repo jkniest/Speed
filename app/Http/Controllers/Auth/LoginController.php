@@ -5,6 +5,15 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
+/**
+ * Handle login requests
+ *
+ * @category Auth
+ * @package  Speed
+ * @author   Jordan Kniest <contact@jkniest.de>
+ * @license  MIT <https://opensource.org/licenses/MIT>
+ * @link     https://jkniest.de
+ */
 class LoginController extends Controller
 {
     /*
@@ -25,12 +34,10 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/overview';
 
     /**
      * Create a new controller instance.
-     *
-     * @return void
      */
     public function __construct()
     {
