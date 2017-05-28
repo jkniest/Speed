@@ -1,5 +1,5 @@
 <p align="center">
-    <img src="docs/logo.png">
+    <img src="docs/logo.png" width="258"><br>
     Icon made by <a href="http://www.iconarchive.com/artist/itzikgur.html">Itzik Gur</a>
 </p>
 
