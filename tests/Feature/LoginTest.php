@@ -33,6 +33,8 @@ class LoginTest extends TestCase
     /** @test */
     public function a_user_must_submit_a_name_to_login()
     {
+        $this->withExceptionHandling();
+
         // When: Someone tries to login without submitting a name
         $response = $this->post('/login', [
             'password' => 'secret'
@@ -48,6 +50,8 @@ class LoginTest extends TestCase
     /** @test */
     public function a_user_must_submit_a_password_to_login()
     {
+        $this->withExceptionHandling();
+
         // When: Someone tries to login without submitting a password
         $response = $this->post('/login', [
             'username' => 'someone'

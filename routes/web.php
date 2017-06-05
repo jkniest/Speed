@@ -11,12 +11,11 @@
 |
 */
 
-Route::get('/', function () {
-    if (auth()->check()) {
-        return redirect()->route('overview');
-    }
+// Pages
+Route::get('/', 'PageController@index');
+Route::get('/overview', 'PageController@overview')->name('overview');
 
-    return redirect()->route('login');
-});
-
-Auth::routes();
+// Authentication Routes...
+$this->get('login', 'Auth\LoginController@showLoginForm')->name('login');
+$this->post('login', 'Auth\LoginController@login');
+$this->post('logout', 'Auth\LoginController@logout')->name('logout');

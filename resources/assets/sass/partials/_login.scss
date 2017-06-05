@@ -1,0 +1,20 @@
+#login-panel {
+
+  @include flexbox;
+  align-items:     center;
+  justify-content: center;
+
+  height:          100%;
+
+  // #login-panel .panel
+  .panel {
+    max-width: 300px;
+    width:     100%;
+
+    // #login-panel .panel form
+    form {
+      width: 100%;
+    }
+  }
+
+}
