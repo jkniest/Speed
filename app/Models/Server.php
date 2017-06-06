@@ -39,20 +39,7 @@ class Server extends Model
      */
     public static function getAverageDown($hour = null)
     {
-        $key = 'average-down' . (($hour != null) ? '-' . $hour : '');
-
-        return Cache::remember($key, 60, function () use ($hour) {
-            return DB::table('tests')
-                ->get()
-                ->filter(function ($test) use ($hour) {
-                    if ($hour == null) {
-                        return true;
-                    } else {
-                        return (new Carbon($test->created_at))->hour == $hour;
-                    }
-                })->pluck('down_speed')
-                ->avg();
-        });
+        return static::getAverage('down', $hour);
     }
 
     /**
@@ -64,18 +51,26 @@ class Server extends Model
      */
     public static function getAverageUp($hour = null)
     {
-        $key = 'average-up' . (($hour != null) ? '-' . $hour : '');
+        return static::getAverage('up', $hour);
+    }
 
-        return Cache::remember($key, 60, function () use ($hour) {
-            return DB::table('tests')
-                ->get()
+    /**
+     * Get the average speed by a field name ($key_speed)
+     *
+     * @param string   $field The field name (e.g. up or down)
+     * @param null|int $hour  The specific hour
+     *
+     * @return int
+     */
+    protected static function getAverage(string $field, $hour)
+    {
+        $key = "average-{$field}" . (($hour != null) ? '-' . $hour : '');
+
+        return Cache::remember($key, 60, function () use ($hour, $field) {
+            return DB::table('tests')->get()
                 ->filter(function ($test) use ($hour) {
-                    if ($hour == null) {
-                        return true;
-                    } else {
-                        return (new Carbon($test->created_at))->hour == $hour;
-                    }
-                })->pluck('up_speed')
+                    return ($hour == null) ? true : (new Carbon($test->created_at))->hour == $hour;
+                })->pluck("{$field}_speed")
                 ->avg();
         });
     }
