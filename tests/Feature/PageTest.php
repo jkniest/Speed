@@ -44,4 +44,24 @@ class PageTest extends TestCase
 
         $response->assertRedirect('/overview');
     }
+
+    /** @test */
+    public function overview_unauthenticated()
+    {
+        $this->withExceptionHandling();
+
+        $response = $this->get('/overview');
+
+        $response->assertRedirect('/login');
+    }
+
+    /** @test */
+    public function overview_authenticated()
+    {
+        $this->signIn();
+
+        $response = $this->get('/overview');
+
+        $response->assertStatus(200);
+    }
 }

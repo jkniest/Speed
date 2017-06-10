@@ -14,6 +14,14 @@ namespace App\Http\Controllers;
 class PageController extends Controller
 {
     /**
+     * PageController constructor.
+     */
+    public function __construct()
+    {
+        $this->middleware('auth')->only('overview');
+    }
+
+    /**
      * Redirect the user, based on their authentication status to the login page
      * or the overview page.
      *
@@ -26,5 +34,10 @@ class PageController extends Controller
         }
 
         return redirect()->route('login');
+    }
+
+    public function overview()
+    {
+        return view('overview');
     }
 }
