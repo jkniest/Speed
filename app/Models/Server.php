@@ -67,11 +67,11 @@ class Server extends Model
         $key = "average-{$field}" . (($hour != null) ? '-' . $hour : '');
 
         return Cache::remember($key, 60, function () use ($hour, $field) {
-            return DB::table('tests')->get()
+            return round(DB::table('tests')->get()
                 ->filter(function ($test) use ($hour) {
                     return ($hour == null) ? true : (new Carbon($test->created_at))->hour == $hour;
                 })->pluck("{$field}_speed")
-                ->avg();
+                ->avg());
         });
     }
 }

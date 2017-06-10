@@ -206,4 +206,32 @@ class ServerTest extends TestCase
         // Then: The average speed should be 1.000
         $this->assertEquals(1000, $average);
     }
+
+    /** @test */
+    public function the_average_speed_is_rounded_to_an_integer()
+    {
+        // Given: A server with two speed tests
+        tap($this->create(Server::class), function ($server) {
+            collect([10012, 6345])->each(function ($speed) use ($server) {
+                DB::table('tests')->insert([
+                    'server_id'  => $server->id,
+                    'down_speed' => $speed,
+                    'up_speed'   => $speed,
+                    'created_at' => Carbon::now()
+                ]);
+            });
+        });
+
+        // When: We fetch the average download speed
+        $average = Server::getAverageDown();
+
+        // Then: The average speed should be 8.179
+        $this->assertEquals(8179, $average);
+
+        // When: We fetch the average upload speed
+        $average = Server::getAverageUp();
+
+        // Then: The average speed should be 8.179
+        $this->assertEquals(8179, $average);
+    }
 }

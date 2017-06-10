@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Server;
+
 /**
  * Handle all requests related to non-resourceful pages like the frontpage
  *
@@ -36,8 +38,25 @@ class PageController extends Controller
         return redirect()->route('login');
     }
 
+    /**
+     * Get the overview page
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function overview()
     {
-        return view('overview');
+        $averageDownload = number_format(Server::getAverageDown());
+        $averageUpload = number_format(Server::getAverageUp());
+
+        $avgDownload = collect(range(0, 23))->map(function ($hour) {
+            return Server::getAverageDown($hour);
+        });
+
+        $avgUpload = collect(range(0, 23))->map(function ($hour) {
+            return Server::getAverageUp($hour);
+        });
+
+        return view('overview',
+            compact('averageDownload', 'averageUpload', 'avgDownload', 'avgUpload'));
     }
 }
