@@ -2,6 +2,12 @@
 
     <p class="panel-heading">
 
+        @if(isset($icon))
+            <span class="icon">
+                <i class="fa fa-{{$icon}}"></i>
+            </span>
+        @endif
+
         {{ $title }}
 
     </p> {{-- p.panel-heading --}}

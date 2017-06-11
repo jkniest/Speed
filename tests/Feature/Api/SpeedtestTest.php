@@ -28,7 +28,8 @@ class SpeedtestTest extends TestCase
         $this->assertDatabaseHas('tests', [
             'server_id'  => $server->id,
             'down_speed' => '500000',
-            'up_speed'   => '120000'
+            'up_speed'   => '120000',
+            'created_at' => Carbon::now()
         ]);
 
         // And: The last test should be makred inside the server

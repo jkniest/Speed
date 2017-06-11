@@ -28,3 +28,12 @@ $factory->define(\App\Models\Server::class, function (Faker\Generator $faker) {
         'token' => str_random()
     ];
 });
+
+$factory->define(\App\Models\Test::class, function () {
+    return [
+        'server_id'  => factory(\App\Models\Server::class)->lazy(),
+        'down_speed' => mt_rand(1000, 1000000),
+        'up_speed'   => mt_rand(500, 500000),
+        'created_at' => \Carbon\Carbon::createFromTime(mt_rand(0, 23))
+    ];
+});
