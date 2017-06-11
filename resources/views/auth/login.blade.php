@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('bodyId', 'body-login')
+
 @section('content')
 
     <div id="login-panel">

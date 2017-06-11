@@ -13,7 +13,7 @@
     <!-- Styles -->
     <link href="{{ mix('css/app.css') }}" rel="stylesheet">
 </head>
-<body>
+<body id="@yield('bodyId')">
     <div id="app">
 
         <div class="container">

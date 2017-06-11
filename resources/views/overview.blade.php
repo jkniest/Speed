@@ -10,7 +10,11 @@
 
         @endcomponent
 
+
+        @include('partials.overview.footer')
+
     </div>
+
 @endsection
 
 @push('scripts')
@@ -35,7 +39,8 @@
         data = google.visualization.arrayToDataTable([
             ['Hour', 'Download', 'Upload'],
                 @for($hour = 0; $hour < 24; $hour++)
-            ['{{$hour}}', {{$avgDownload[$hour]}}, {{$avgUpload[$hour]}}],
+            [
+                '{{$hour}}', {{$avgDownload[$hour]}}, {{$avgUpload[$hour]}}],
             @endfor
         ]);
 
@@ -50,17 +55,20 @@
         window.chart = chart;
     }
 
-    function resizeChart () {
+    function resizeChart()
+    {
         chart.draw(data, options);
     }
     if (document.addEventListener) {
         window.addEventListener('resize', resizeChart);
     }
-    else if (document.attachEvent) {
-        window.attachEvent('onresize', resizeChart);
-    }
     else {
-        window.resize = resizeChart;
+        if (document.attachEvent) {
+            window.attachEvent('onresize', resizeChart);
+        }
+        else {
+            window.resize = resizeChart;
+        }
     }
 
 </script>
