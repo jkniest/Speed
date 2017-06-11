@@ -1,6 +1,6 @@
-<div class="container p1" style="height: 200px;">
+<div class="container p1 w100" style="height: 200px;">
 
-    <nav class="level" style="height: 100%;">
+    <nav class="level is-mobile" style="height: 100%;">
 
         <div class="level-item has-text-centered">
 

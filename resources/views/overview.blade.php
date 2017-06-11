@@ -2,7 +2,7 @@
 
 @section('content')
 
-    <div id="overview" class="m4t">
+    <div id="overview" class="m4t m1t-xs p1">
 
         @component('partials.panel', ['title' => 'Speed'])
 
