@@ -10,7 +10,6 @@
 
         @endcomponent
 
-
         @include('partials.overview.footer')
 
     </div>
