@@ -9,7 +9,7 @@
     </a> <a href="https://speed.genadev.de">
         <img src="https://img.shields.io/badge/Version-1.0%20(DEV)-yellow.svg">
     </a> <a href="https://laravel.com">
-        <img src="https://img.shields.io/badge/Laravel-5.4.25-blue.svg">
+        <img src="https://img.shields.io/badge/Laravel-5.4.27-blue.svg">
     </a> 
     
 ## About Speed
