@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 
@@ -33,44 +34,48 @@ class Server extends Model
     /**
      * Get the average download speed of all servers (optional by hour)
      *
-     * @param null|int $hour The specific hour
+     * @param null|int        $hour  The specific hour
+     * @param null|Collection $tests All existing tests
      *
      * @return int
      */
-    public static function getAverageDown($hour = null)
+    public static function getAverageDown($hour = null, $tests = null)
     {
-        return static::getAverage('down', $hour);
+        return static::getAverage('down', $hour, $tests);
     }
 
     /**
      * Get the average up speed (optional by hour)
      *
-     * @param null|int $hour The specific hour
+     * @param null|int        $hour  The specific hour
+     * @param null|Collection $tests All existing tests
      *
      * @return int
      */
-    public static function getAverageUp($hour = null)
+    public static function getAverageUp($hour = null, $tests = null)
     {
-        return static::getAverage('up', $hour);
+        return static::getAverage('up', $hour, $tests);
     }
 
     /**
      * Get the average speed by a field name ($key_speed)
      *
-     * @param string   $field The field name (e.g. up or down)
-     * @param null|int $hour  The specific hour
+     * @param string          $field The field name (e.g. up or down)
+     * @param null|int        $hour  The specific hour
+     * @param null|Collection $tests All existing tests
      *
      * @return int
      */
-    protected static function getAverage(string $field, $hour)
+    protected static function getAverage(string $field, $hour, $tests = null)
     {
         $key = "average-{$field}" . (($hour != null) ? '-' . $hour : '');
 
-        return Cache::remember($key, 60, function () use ($hour, $field) {
-            return round(DB::table('tests')->get()
-                ->filter(function ($test) use ($hour) {
-                    return ($hour == null) ? true : (new Carbon($test->created_at))->hour == $hour;
-                })->pluck("{$field}_speed")
+        return Cache::remember($key, 60, function () use ($hour, $field, $tests) {
+            $tests = $tests ?: DB::table('tests')->get();
+
+            return round($tests->filter(function ($test) use ($hour) {
+                return ($hour == null) ? true : (new Carbon($test->created_at))->hour == $hour;
+            })->pluck("{$field}_speed")
                 ->avg());
         });
     }

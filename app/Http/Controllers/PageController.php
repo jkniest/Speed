@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Server;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Handle all requests related to non-resourceful pages like the frontpage
@@ -45,15 +46,17 @@ class PageController extends Controller
      */
     public function overview()
     {
-        $averageDownload = number_format(Server::getAverageDown());
-        $averageUpload = number_format(Server::getAverageUp());
+        $tests = DB::table('tests')->get();
 
-        $avgDownload = collect(range(0, 23))->map(function ($hour) {
-            return Server::getAverageDown($hour);
+        $averageDownload = number_format(Server::getAverageDown(null, $tests));
+        $averageUpload = number_format(Server::getAverageUp(null, $tests));
+
+        $avgDownload = collect(range(0, 23))->map(function ($hour) use ($tests) {
+            return Server::getAverageDown($hour, $tests);
         });
 
-        $avgUpload = collect(range(0, 23))->map(function ($hour) {
-            return Server::getAverageUp($hour);
+        $avgUpload = collect(range(0, 23))->map(function ($hour) use ($tests) {
+            return Server::getAverageUp($hour, $tests);
         });
 
         return view('overview',
