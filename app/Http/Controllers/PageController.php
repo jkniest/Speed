@@ -2,8 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Server;
-use Illuminate\Support\Facades\DB;
+use App\Services\AverageService;
 
 /**
  * Handle all requests related to non-resourceful pages like the frontpage
@@ -42,21 +41,21 @@ class PageController extends Controller
     /**
      * Get the overview page
      *
+     * @param AverageService $avg The average calculation service
+     *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function overview()
+    public function overview(AverageService $avg)
     {
-        $tests = DB::table('tests')->get();
+        $averageDownload = number_format($avg->getDown());
+        $averageUpload = number_format($avg->getUp());
 
-        $averageDownload = number_format(Server::getAverageDown(null, $tests));
-        $averageUpload = number_format(Server::getAverageUp(null, $tests));
-
-        $avgDownload = collect(range(0, 23))->map(function ($hour) use ($tests) {
-            return Server::getAverageDown($hour, $tests);
+        $avgDownload = collect(range(0, 23))->map(function ($hour) use ($avg) {
+            return $avg->getDown($hour);
         });
 
-        $avgUpload = collect(range(0, 23))->map(function ($hour) use ($tests) {
-            return Server::getAverageUp($hour, $tests);
+        $avgUpload = collect(range(0, 23))->map(function ($hour) use ($avg) {
+            return $avg->getUp($hour);
         });
 
         return view('overview',
