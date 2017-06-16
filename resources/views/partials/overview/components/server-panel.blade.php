@@ -6,7 +6,7 @@
 
             @component('partials.panel', ['title' => 'Average speed', 'icon' => 'line-chart'])
 
-                @include('partials.overview.server.average-speed')
+                {{$average}}
 
             @endcomponent
 
@@ -16,7 +16,7 @@
 
             @component('partials.panel', ['title' => 'By time', 'icon' => 'clock-o'])
 
-                @include('partials.overview.server.average-time')
+                {{$time}}
 
             @endcomponent
 

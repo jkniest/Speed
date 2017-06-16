@@ -187,4 +187,84 @@ class ServerTest extends TestCase
         // Then: The average speed should be 4500
         $this->assertEquals(4500, $average);
     }
+
+    /** @test */
+    public function it_can_return_all_download_test_results_grouped_by_hour()
+    {
+        // Given: A server with three speedtest (two = 4am, one = 5am, three = 11am)
+        $server = $this->create(Server::class);
+        $this->create(Test::class, [
+            'server_id'  => $server->id,
+            'down_speed' => '100000',
+            'created_at' => Carbon::createFromTime(4)
+        ], 2);
+        $this->create(Test::class, [
+            'server_id'  => $server->id,
+            'down_speed' => '50000',
+            'created_at' => Carbon::createFromTime(5)
+        ]);
+        $this->create(Test::class, [
+            'server_id'  => $server->id,
+            'down_speed' => '100400',
+            'created_at' => Carbon::createFromTime(11)
+        ], 3);
+
+        // When: We fetch all results based on hour
+        $results = $server->getAverageDownloadArray();
+
+        // Then: The array should have 24 entries
+        $this->assertCount(24, $results);
+
+        // And: The 4th result should be 100.000
+        $this->assertEquals(100000, $results[4]);
+
+        // And: The 5th result should be 50.000
+        $this->assertEquals(50000, $results[5]);
+
+        // And: The 11th result should be 100.400
+        $this->assertEquals(100400, $results[11]);
+
+        // And: The 13th result should be 0
+        $this->assertEquals(0, $results[13]);
+    }
+
+    /** @test */
+    public function it_can_return_all_upload_test_results_grouped_by_hour()
+    {
+        // Given: A server with three speedtest (two = 11am, one = 4am, three = 1am)
+        $server = $this->create(Server::class);
+        $this->create(Test::class, [
+            'server_id'  => $server->id,
+            'up_speed'   => '1500',
+            'created_at' => Carbon::createFromTime(11)
+        ], 2);
+        $this->create(Test::class, [
+            'server_id'  => $server->id,
+            'up_speed'   => '2450',
+            'created_at' => Carbon::createFromTime(4)
+        ]);
+        $this->create(Test::class, [
+            'server_id'  => $server->id,
+            'up_speed'   => '530',
+            'created_at' => Carbon::createFromTime(1)
+        ], 3);
+
+        // When: We fetch all results based on hour
+        $results = $server->getAverageUploadArray();
+
+        // Then: The array should have 24 entries
+        $this->assertCount(24, $results);
+
+        // And: The 11th result should be 1500
+        $this->assertEquals(1500, $results[11]);
+
+        // And: The 4th result should be 2450
+        $this->assertEquals(2450, $results[4]);
+
+        // And: The 1st result should be 530
+        $this->assertEquals(530, $results[1]);
+
+        // And: The 13th result should be 0
+        $this->assertEquals(0, $results[13]);
+    }
 }

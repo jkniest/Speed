@@ -14,19 +14,22 @@
     <link href="{{ mix('css/app.css') }}" rel="stylesheet">
 </head>
 <body id="@yield('bodyId')">
-    <div id="app">
 
-        <div class="container">
+<div id="app">
 
-            @yield('content')
+    <div class="container">
 
-        </div> {{-- div.container --}}
+        @yield('content')
 
-    </div> {{-- div#app --}}
+    </div> {{-- div.container --}}
 
-    <!-- Scripts -->
-    <script src="{{ mix('js/app.js') }}"></script>
+</div> {{-- div#app --}}
 
-    @stack('scripts')
+<!-- Scripts -->
+<script src="{{ mix('js/app.js') }}"></script>
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+@stack('scripts')
 </body>
 </html>

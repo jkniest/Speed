@@ -63,6 +63,32 @@ class Server extends Model
     }
 
     /**
+     * Return the average download speed grouped by hour (0 - 23)
+     *
+     * @return array
+     */
+    public function getAverageDownloadArray()
+    {
+        return collect(range(0, 23))
+            ->map(function ($hour) {
+                return $this->getAverageDownload($hour);
+            })->toArray();
+    }
+
+    /**
+     * Return the average upload speed grouped by hour (0 - 23)
+     *
+     * @return array
+     */
+    public function getAverageUploadArray()
+    {
+        return collect(range(0, 23))
+            ->map(function ($hour) {
+                return $this->getAverageUpload($hour);
+            })->toArray();
+    }
+
+    /**
      * Get the rounded average value of a given field ($field_speed)
      *
      * @param string   $field The field name
