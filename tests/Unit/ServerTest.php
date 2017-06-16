@@ -4,6 +4,7 @@ namespace Tests\Unit;
 
 use App\Models\Server;
 use App\Models\Test;
+use Carbon\Carbon;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
@@ -117,5 +118,73 @@ class ServerTest extends TestCase
 
         // Then: The average speed should be 3.000 (cached)
         $this->assertEquals(3000, $uploadSpeed);
+    }
+
+    /** @test */
+    public function it_can_return_the_average_download_speed_by_time()
+    {
+        // Given: A server with three speed test (two on 2am and one on 3am)
+        $server = $this->create(Server::class);
+        $this->create(Test::class, [
+            'down_speed' => 100000,
+            'server_id'  => $server->id,
+            'created_at' => Carbon::createFromTime(2)
+        ]);
+        $this->create(Test::class, [
+            'down_speed' => 50000,
+            'server_id'  => $server->id,
+            'created_at' => Carbon::createFromTime(2)
+        ]);
+        $this->create(Test::class, [
+            'down_speed' => 130000,
+            'server_id'  => $server->id,
+            'created_at' => Carbon::createFromTime(3)
+        ]);
+
+        // When: We fetch the average speed for 2am
+        $average = $server->getAverageDownload(2);
+
+        // Then: The average speed should be 75.000
+        $this->assertEquals(75000, $average);
+
+        // When: We fetch the average speed for 3am
+        $average = $server->getAverageDownload(3);
+
+        // Then: The average speed should be 130.000
+        $this->assertEquals(130000, $average);
+    }
+
+    /** @test */
+    public function it_can_return_the_average_upload_speed_by_time()
+    {
+        // Given: A server with three speed test (two on 10am and one on 8am)
+        $server = $this->create(Server::class);
+        $this->create(Test::class, [
+            'up_speed'   => 1500,
+            'server_id'  => $server->id,
+            'created_at' => Carbon::createFromTime(10)
+        ]);
+        $this->create(Test::class, [
+            'up_speed'   => 2600,
+            'server_id'  => $server->id,
+            'created_at' => Carbon::createFromTime(10)
+        ]);
+        $this->create(Test::class, [
+            'up_speed'   => 4500,
+            'server_id'  => $server->id,
+            'created_at' => Carbon::createFromTime(8)
+        ]);
+
+        // When: We fetch the average speed for 10am
+        $average = $server->getAverageUpload(10);
+
+        // Then: The average speed should be 2050
+        $this->assertEquals(2050, $average);
+
+        // When: We fetch the average speed for 8am
+        $average = $server->getAverageUpload(8);
+
+        // Then: The average speed should be 4500
+        $this->assertEquals(4500, $average);
     }
 }

@@ -41,37 +41,44 @@ class Server extends Model
     /**
      * Get the average download speed of this server
      *
+     * @param int|null $hour The specific hour
+     *
      * @return int
      */
-    public function getAverageDownload()
+    public function getAverageDownload($hour = null)
     {
-        return $this->getAverage('down');
+        return $this->getAverage('down', $hour);
     }
 
     /**
      * Get the average upload speed of this server
      *
+     * @param int|null $hour The specific hour
+     *
      * @return int
      */
-    public function getAverageUpload()
+    public function getAverageUpload($hour = null)
     {
-        return $this->getAverage('up');
+        return $this->getAverage('up', $hour);
     }
 
     /**
      * Get the rounded average value of a given field ($field_speed)
      *
-     * @param string $field The field name
+     * @param string   $field The field name
+     * @param int|null $hour  The specific hour
      *
      * @return int
      */
-    private function getAverage(string $field)
+    private function getAverage(string $field, $hour = null)
     {
-        $key = $this->getCacheKey($field);
+        $key = $this->getCacheKey($field, $hour);
 
-        return Cache::remember($key, 60, function () use ($field) {
+        return Cache::remember($key, 60, function () use ($field, $hour) {
             return round(
-                $this->tests->pluck("{$field}_speed")
+                $this->tests->filter(function ($test) use ($hour) {
+                    return ($hour == null) ? true : $hour == $test->created_at->hour;
+                })->pluck("{$field}_speed")
                     ->avg()
             );
         });
@@ -80,12 +87,13 @@ class Server extends Model
     /**
      * Get the key for caching based on the server id and field name
      *
-     * @param string $field The field name
+     * @param string   $field The field name
+     * @param int|null $hour  The specific hour
      *
      * @return string
      */
-    private function getCacheKey(string $field)
+    private function getCacheKey(string $field, $hour = null)
     {
-        return "average-{$this->id}-{$field}";
+        return "average-{$this->id}-{$field}" . (($hour != null) ? '-' . $hour : '');
     }
 }
