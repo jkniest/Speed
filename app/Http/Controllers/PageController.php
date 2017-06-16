@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Server;
 use App\Services\AverageService;
 
 /**
@@ -47,8 +48,8 @@ class PageController extends Controller
      */
     public function overview(AverageService $avg)
     {
-        $averageDownload = number_format($avg->getDown());
-        $averageUpload = number_format($avg->getUp());
+        $averageDownload = $avg->getDown();
+        $averageUpload = $avg->getUp();
 
         $avgDownload = collect(range(0, 23))->map(function ($hour) use ($avg) {
             return $avg->getDown($hour);
@@ -58,7 +59,9 @@ class PageController extends Controller
             return $avg->getUp($hour);
         });
 
+        $servers = Server::with('tests')->get();
+
         return view('overview',
-            compact('averageDownload', 'averageUpload', 'avgDownload', 'avgUpload'));
+            compact('averageDownload', 'averageUpload', 'avgDownload', 'avgUpload', 'servers'));
     }
 }

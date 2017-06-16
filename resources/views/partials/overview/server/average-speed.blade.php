@@ -20,7 +20,7 @@
 
                 </p> {{-- p.heading --}}
 
-                <p class="title">{{number_format($averageDownload)}}</p>
+                <p class="title">{{number_format($server->getAverageDownload())}}</p>
 
             </div> {{-- div --}}
 
@@ -44,7 +44,31 @@
 
                 </p>
 
-                <p class="title">{{number_format($averageUpload)}}</p>
+                <p class="title">{{number_format($server->getAverageUpload())}}</p>
+
+            </div> {{-- div --}}
+
+        </div> {{-- div.level-item --}}
+
+        <div class="level-item has-text-centered">
+
+            <div>
+
+                <p class="heading">
+
+                    <span class="icon is-small">
+                        <i class="fa fa-clock-o"></i>
+                    </span> {{-- span.icon --}}
+
+                    Last test
+
+                    <span class="icon is-small">
+                        <i class="fa fa-clock-o"></i>
+                    </span> {{-- span.icon --}}
+
+                </p>
+
+                <p class="title">{{Carbon\Carbon::parse($server->last_test)->format('d.m.Y H:m')}}</p>
 
             </div> {{-- div --}}
 
