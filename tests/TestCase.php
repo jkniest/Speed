@@ -26,14 +26,15 @@ abstract class TestCase extends BaseTestCase
     /**
      * Wrapper for factory()->create
      *
-     * @param mixed $class      The class that should be created
-     * @param array $attributes Additional attributes
+     * @param mixed   $class      The class that should be created
+     * @param array   $attributes Additional attributes
+     * @param integer $amount     The amount that should be created
      *
      * @return mixed
      */
-    protected function create($class, $attributes = [])
+    protected function create($class, $attributes = [], $amount = null)
     {
-        return factory($class)->create($attributes);
+        return factory($class, $amount)->create($attributes);
     }
 
     /**
