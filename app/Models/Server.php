@@ -49,6 +49,16 @@ class Server extends Model
     }
 
     /**
+     * Get the average upload speed of this server
+     *
+     * @return int
+     */
+    public function getAverageUpload()
+    {
+        return $this->getAverage('up');
+    }
+
+    /**
      * Get the rounded average value of a given field ($field_speed)
      *
      * @param string $field The field name

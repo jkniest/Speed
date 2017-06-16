@@ -54,4 +54,20 @@ class ServerTest extends TestCase
         // Then: The value should be 93.333
         $this->assertEquals(93333, $downloadSpeed);
     }
+
+    /** @test */
+    public function it_can_return_the_average_upload_speed()
+    {
+        // Given: A server with three speed tests
+        $server = $this->create(Server::class);
+        $this->create(Test::class, ['up_speed' => 1000, 'server_id' => $server->id]);
+        $this->create(Test::class, ['up_speed' => 5000, 'server_id' => $server->id]);
+        $this->create(Test::class, ['up_speed' => 4500, 'server_id' => $server->id]);
+
+        // When: We fetch the average upload speed..
+        $uploadSpeed = $server->getAverageUpload();
+
+        // Then: The value should be 3.500
+        $this->assertEquals(3500, $uploadSpeed);
+    }
 }
