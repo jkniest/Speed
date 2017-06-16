@@ -70,4 +70,52 @@ class ServerTest extends TestCase
         // Then: The value should be 3.500
         $this->assertEquals(3500, $uploadSpeed);
     }
+
+    /** @test */
+    public function it_can_cache_the_average_download_speed()
+    {
+        // Given: A server with two speed tests
+        $server = $this->create(Server::class);
+        $this->create(Test::class, ['down_speed' => 100000, 'server_id' => $server->id]);
+        $this->create(Test::class, ['down_speed' => 50000, 'server_id' => $server->id]);
+
+        // When: We fetch the average download speed
+        $downloadSpeed = $server->getAverageDownload();
+
+        // Then: The value should be 75.000
+        $this->assertEquals(75000, $downloadSpeed);
+
+        // Given: Another speedtest is added
+        $this->create(Test::class, ['down_speed' => 50000, 'server_id' => $server->id]);
+
+        // When: We fetch the average download speed again
+        $downloadSpeed = $server->getAverageDownload();
+
+        // Then: The average speed should be 75.000 (cached)
+        $this->assertEquals(75000, $downloadSpeed);
+    }
+
+    /** @test */
+    public function it_can_cache_the_average_upload_speed()
+    {
+        // Given: A server with two speed tests
+        $server = $this->create(Server::class);
+        $this->create(Test::class, ['up_speed' => 1000, 'server_id' => $server->id]);
+        $this->create(Test::class, ['up_speed' => 5000, 'server_id' => $server->id]);
+
+        // When: We fetch the average upload speed
+        $uploadSpeed = $server->getAverageUpload();
+
+        // Then: The average speed should be 3.000
+        $this->assertEquals(3000, $uploadSpeed);
+
+        // Given: Another speedtest is added
+        $this->create(Test::class, ['up_speed' => 4500, 'server_id' => $server->id]);
+
+        // When: We fetch the average upload speed again
+        $uploadSpeed = $server->getAverageUpload();
+
+        // Then: The average speed should be 3.000 (cached)
+        $this->assertEquals(3000, $uploadSpeed);
+    }
 }
