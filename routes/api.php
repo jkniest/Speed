@@ -14,3 +14,6 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::post('result', 'TestController@store');
+
+Route::patch('server', 'ServerController@update');
+Route::delete('server', 'ServerController@destroy');
