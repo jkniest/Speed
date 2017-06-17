@@ -24,8 +24,9 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
 
 $factory->define(\App\Models\Server::class, function (Faker\Generator $faker) {
     return [
-        'name'  => $faker->userName,
-        'token' => str_random()
+        'name'      => $faker->userName,
+        'token'     => str_random(),
+        'last_test' => $faker->dateTimeBetween()
     ];
 });
 

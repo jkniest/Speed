@@ -20,7 +20,7 @@
 
                 </p> {{-- p.heading --}}
 
-                <p class="title">{{$averageDownload}}</p>
+                <p class="title">{{number_format($download)}}</p>
 
             </div> {{-- div --}}
 
@@ -44,11 +44,13 @@
 
                 </p>
 
-                <p class="title">{{$averageUpload}}</p>
+                <p class="title">{{number_format($upload)}}</p>
 
             </div> {{-- div --}}
 
         </div> {{-- div.level-item --}}
+
+        {{ $slot }}
 
     </nav> {{-- nav.level --}}
 

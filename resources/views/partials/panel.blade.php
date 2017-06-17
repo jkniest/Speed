@@ -1,6 +1,6 @@
 <div class="panel">
 
-    <p class="panel-heading">
+    <div class="panel-heading">
 
         @if(isset($icon))
             <span class="icon">
@@ -10,7 +10,7 @@
 
         {{ $title }}
 
-    </p> {{-- p.panel-heading --}}
+    </div> {{-- div.panel-heading --}}
 
     <div class="panel-block">
 

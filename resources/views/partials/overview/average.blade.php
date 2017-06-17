@@ -1,27 +1,28 @@
-<div class="w100">
+@component('partials.overview.components.server-panel')
 
-    <div class="columns">
+    @slot('average')
 
-        <div class="column is-half">
+        @component('partials.overview.components.speed-panel', [
+            'download' => $averageDownload,
+            'upload'   => $averageUpload
+        ])
 
-            @component('partials.panel', ['title' => 'Average speed', 'icon' => 'line-chart'])
+        @endcomponent {{-- component: speed-panel --}}
 
-                @include('partials.overview.average-speed')
 
-            @endcomponent
+    @endslot {{-- slot - average --}}
 
-        </div> {{-- div.column.is-half --}}
+    @slot('time')
 
-        <div class="column is-half">
+        @component('partials.overview.components.time-panel', [
+            'downloads' => $avgDownload,
+            'uploads'   => $avgUpload
+        ])
 
-            @component('partials.panel', ['title' => 'By time', 'icon' => 'clock-o'])
+            all
 
-                @include('partials.overview.average-time')
+        @endcomponent {{-- component: time-panel --}}
 
-            @endcomponent
+    @endslot {{-- slot - time --}}
 
-        </div> {{-- div.column.is-half --}}
-
-    </div> {{-- div.column --}}
-
-</div> {{-- div.w100 --}}
+@endcomponent

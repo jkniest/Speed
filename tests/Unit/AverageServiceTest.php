@@ -13,16 +13,6 @@ class AverageServiceTest extends TestCase
 {
     use DatabaseMigrations;
 
-    /**
-     * @var AverageService
-     */
-    private $service;
-
-    protected function setUp()
-    {
-        parent::setUp();
-    }
-
     /** @test */
     public function it_can_return_the_average_down_speed()
     {

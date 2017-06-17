@@ -4,11 +4,47 @@
 
     <div id="overview" class="m4t m1t-xs p1">
 
-        @component('partials.panel', ['title' => 'Speed'])
+        @component('partials.panel')
+
+            @slot('title')
+
+                <div class="level">
+
+                    <div class="level-left">
+
+                        <div class="level-item">
+
+                            All servers
+
+                        </div> {{-- div.level-item --}}
+
+                    </div> {{-- div.level-left --}}
+
+                    <div class="level-right">
+
+                        <div class="level-item">
+
+                            <form action="{{route('logout')}}" id="logoutForm" method="post">
+                                {{csrf_field()}}
+                            </form>
+
+                            <a href="#" onclick="$('#logoutForm').submit();">
+                                [Logout]
+                            </a>
+
+                        </div> {{-- div.level-item --}}
+
+                    </div> {{-- div.level-right --}}
+
+                </div> {{-- div.level --}}
+
+            @endslot {{-- slot: title --}}
 
             @include('partials.overview.average')
 
-        @endcomponent
+        @endcomponent {{-- component: panel --}}
+
+        @include ('partials.overview.all-servers')
 
         @include('partials.overview.footer')
 
@@ -16,59 +52,4 @@
 
 @endsection
 
-@push('scripts')
 
-<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-
-<script>
-
-    google.charts.load('current', {'packages': ['corechart']});
-
-    google.charts.setOnLoadCallback(drawChart);
-
-    var data = null;
-
-    // Set chart options
-    var options = null;
-
-    var chart = null;
-
-    function drawChart()
-    {
-        data = google.visualization.arrayToDataTable([
-            ['Hour', 'Download', 'Upload'],
-                @for($hour = 0; $hour < 24; $hour++)
-            [
-                '{{$hour}}', {{$avgDownload[$hour]}}, {{$avgUpload[$hour]}}],
-            @endfor
-        ]);
-
-        options = {
-            hAxis: {title: 'Hour', titleTextStyle: {color: '#333'}},
-            vAxis: {minValue: 0}
-        };
-
-        chart = new google.visualization.AreaChart(document.getElementById('bytime'));
-        chart.draw(data, options);
-
-        window.chart = chart;
-    }
-
-    function resizeChart()
-    {
-        chart.draw(data, options);
-    }
-    if (document.addEventListener) {
-        window.addEventListener('resize', resizeChart);
-    }
-    else {
-        if (document.attachEvent) {
-            window.attachEvent('onresize', resizeChart);
-        }
-        else {
-            window.resize = resizeChart;
-        }
-    }
-
-</script>
-@endpush
