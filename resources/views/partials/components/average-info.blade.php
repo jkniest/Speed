@@ -8,15 +8,11 @@
 
                 <p class="heading">
 
-                    <span class="icon is-small">
-                        <i class="fa fa-caret-down"></i>
-                    </span> {{-- span.icon --}}
+                    @iconSmall(caret-down)
 
                     Download
 
-                    <span class="icon is-small">
-                        <i class="fa fa-caret-down"></i>
-                    </span> {{-- span.icon --}}
+                    @iconSmall(caret-down)
 
                 </p> {{-- p.heading --}}
 
@@ -32,15 +28,11 @@
 
                 <p class="heading">
 
-                    <span class="icon is-small">
-                        <i class="fa fa-caret-up"></i>
-                    </span> {{-- span.icon --}}
+                    @iconSmall(caret-up)
 
                     Upload
 
-                    <span class="icon is-small">
-                        <i class="fa fa-caret-up"></i>
-                    </span> {{-- span.icon --}}
+                    @iconSmall(caret-up)
 
                 </p>
 
@@ -49,8 +41,6 @@
             </div> {{-- div --}}
 
         </div> {{-- div.level-item --}}
-
-        {{ $slot }}
 
     </nav> {{-- nav.level --}}
 

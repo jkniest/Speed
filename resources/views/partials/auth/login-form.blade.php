@@ -2,11 +2,11 @@
 
     {{csrf_field()}}
 
-    @component('partials.input', ['name' => 'name', 'icon' => 'user'])
+    @component('partials.components.input', ['name' => 'name', 'icon' => 'user'])
         Username
     @endcomponent
 
-    @component('partials.input', ['name' => 'password', 'icon' => 'lock', 'type' => 'password'])
+    @component('partials.components.input', ['name' => 'password', 'icon' => 'lock', 'type' => 'password'])
         Password
     @endcomponent
 

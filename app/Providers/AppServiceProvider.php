@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Icon;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 
@@ -24,6 +26,14 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Schema::defaultStringLength(191);
+
+        Blade::directive('icon', function ($expression) {
+            return Icon::render($expression);
+        });
+
+        Blade::directive('iconSmall', function ($expression) {
+            return Icon::render($expression, 'small');
+        });
     }
 
     /**
