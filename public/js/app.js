@@ -2140,7 +2140,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         return {
 
             // Is the settings panel currently open?
-            settingsOpen: true,
+            settingsOpen: false,
 
             // A copy of the servers' data
             data: this.server,
@@ -2160,6 +2160,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         };
     },
 
+
+    watch: {
+
+        /**
+         * When the settings panel is opened or closed the google graph should resize itself
+         */
+        settingsOpen: function settingsOpen(val) {
+            var self = this;
+            setTimeout(function () {
+                window['resizeChart_' + self.data.id]();
+            }, 500);
+        }
+    },
 
     /**
      * When the component is mounted the necessary dependencies should be fetched.

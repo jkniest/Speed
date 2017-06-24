@@ -13,7 +13,7 @@
             return {
 
                 // Is the settings panel currently open?
-                settingsOpen: true,
+                settingsOpen: false,
 
                 // A copy of the servers' data
                 data: this.server,
@@ -31,6 +31,21 @@
                 originalSaveButtonContent: ''
 
             };
+        },
+
+        watch: {
+
+            /**
+             * When the settings panel is opened or closed the google graph should resize itself
+             */
+            settingsOpen(val) {
+                let self = this;
+                setTimeout(function ()
+                {
+                    window['resizeChart_' + self.data.id]();
+                }, 500);
+            }
+
         },
 
         /**

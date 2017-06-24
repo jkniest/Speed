@@ -20,11 +20,13 @@
 
         <div class="level-item">
 
-            <div @click="toggleSettings">
+            <div @click="toggleSettings" class="is-clickable">
                 @icon(cog)
             </div>
 
-            @icon(times)
+            <div class="is-clickable">
+                @icon(times)
+            </div>
 
         </div> {{-- div.level-item --}}
 
