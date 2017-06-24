@@ -4,9 +4,9 @@
 
         <div class="level-item">
 
-            @icon(server)
+            @icon(server)&nbsp;
 
-            {{$server->name}}&nbsp;
+            @{{data.name}}&nbsp;
 
             <small>
                 (Last test: {{Carbon\Carbon::parse($server->last_test)->format('d.m.Y H:m')}})
@@ -20,7 +20,9 @@
 
         <div class="level-item">
 
-            @icon(cog)
+            <div @click="toggleSettings">
+                @icon(cog)
+            </div>
 
             @icon(times)
 

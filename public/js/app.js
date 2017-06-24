@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 43);
+/******/ 	return __webpack_require__(__webpack_require__.s = 46);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -594,7 +594,7 @@ var _defaultParams2 = _interopRequireWildcard(_defaultParams);
  * Add modal + overlay to DOM
  */
 
-var _injectedHTML = __webpack_require__(38);
+var _injectedHTML = __webpack_require__(39);
 
 var _injectedHTML2 = _interopRequireWildcard(_injectedHTML);
 
@@ -920,7 +920,7 @@ utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
 
 module.exports = defaults;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(35)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(36)))
 
 /***/ }),
 /* 5 */
@@ -1262,11 +1262,11 @@ module.exports = g;
  * building robust, powerful web applications using Vue and Laravel.
  */
 
-__webpack_require__(32);
+__webpack_require__(33);
 
-window.Vue = __webpack_require__(41);
+window.Vue = __webpack_require__(44);
 
-Vue.component('server-panel', __webpack_require__(52));
+Vue.component('server-panel', __webpack_require__(42));
 
 var app = new Vue({
   el: '#app'
@@ -2121,10 +2121,130 @@ module.exports = function spread(callback) {
 
 /***/ }),
 /* 32 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+
+
+/**
+ * This component is a single panel for a server. It handles the settings form and the delete
+ * button.
+ */
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+
+    props: ['server'],
+
+    data: function data() {
+        return {
+
+            // Is the settings panel currently open?
+            settingsOpen: true,
+
+            // A copy of the servers' data
+            data: this.server,
+
+            // The input field (jQuery object)
+            field: null,
+
+            // The save button (jQuery object)
+            saveBtn: null,
+
+            // The cancel button (jQuery object)
+            cancelBtn: null,
+
+            // The original content of the save button
+            originalSaveButtonContent: ''
+
+        };
+    },
+
+
+    /**
+     * When the component is mounted the necessary dependencies should be fetched.
+     * Currently jQuery is used for it.
+     */
+    mounted: function mounted() {
+        this.field = $('#' + this.data.id + '_name');
+        this.saveBtn = $('#' + this.data.id + '_save');
+        this.cancelBtn = $('#' + this.data.id + '_cancel');
+    },
+
+
+    methods: {
+
+        /**
+         * Close or open the settings (toggle)
+         */
+        toggleSettings: function toggleSettings() {
+            this.settingsOpen = !this.settingsOpen;
+        },
+
+
+        /**
+         * Cancel the name changing. Reset the field and close the settings panel.
+         */
+        cancel: function cancel() {
+            var field = $('#' + this.data.id + '_name');
+            field.val(this.data.name);
+
+            this.settingsOpen = false;
+        },
+
+
+        /**
+         * Save a new name for the server. So send a patch request to our api.
+         */
+        save: function save() {
+            var _this = this;
+
+            this.originalSaveButtonContent = this.saveBtn.html();
+
+            this.saveBtn.html('<span class="icon is-small"><i class="fa fa-circle-o-notch fa-spin"></i></span>&nbsp;Saving...');
+            this.saveBtn.prop('disabled', true);
+            this.cancelBtn.prop('disabled', true);
+
+            axios.patch('/api/server', {
+                'token': this.data.token,
+                'name': this.field.val()
+            }).then(function () {
+                _this.saveBtn.html(_this.originalSaveButtonContent);
+                _this.saveBtn.prop('disabled', false);
+                _this.cancelBtn.prop('disabled', false);
+
+                _this.data.name = _this.field.val();
+                _this.settingsOpen = false;
+            }).catch(function (errors) {
+                return _this.onError(errors.response.data);
+            });
+        },
+
+
+        /**
+         * If an error occured while saving the name it will be shown inside a sweet alert.
+         *
+         * @param errors
+         */
+        onError: function onError(errors) {
+            var message = errors[Object.keys(errors)[0]][0];
+
+            swal('Whoops!', message, 'error');
+
+            this.saveBtn.html(this.originalSaveButtonContent);
+            this.saveBtn.prop('disabled', false);
+            this.cancelBtn.prop('disabled', false);
+        }
+    }
+
+});
+
+/***/ }),
+/* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
-window._ = __webpack_require__(34);
+window._ = __webpack_require__(35);
 
 /**
  * We'll load jQuery and the Bootstrap jQuery plugin which provides support
@@ -2133,7 +2253,7 @@ window._ = __webpack_require__(34);
  */
 
 try {
-  window.$ = window.jQuery = __webpack_require__(33);
+  window.$ = window.jQuery = __webpack_require__(34);
 } catch (e) {}
 
 /**
@@ -2160,10 +2280,10 @@ if (token) {
   console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
 }
 
-window.swal = __webpack_require__(40);
+window.swal = __webpack_require__(41);
 
 /***/ }),
-/* 33 */
+/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -12423,7 +12543,7 @@ return jQuery;
 
 
 /***/ }),
-/* 34 */
+/* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global, module) {var __WEBPACK_AMD_DEFINE_RESULT__;/**
@@ -29512,10 +29632,10 @@ return jQuery;
   }
 }.call(this));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(11), __webpack_require__(42)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(11), __webpack_require__(45)(module)))
 
 /***/ }),
-/* 35 */
+/* 36 */
 /***/ (function(module, exports) {
 
 // shim for using process in browser
@@ -29705,7 +29825,7 @@ process.umask = function() { return 0; };
 
 
 /***/ }),
-/* 36 */
+/* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29846,7 +29966,7 @@ exports['default'] = {
 module.exports = exports['default'];
 
 /***/ }),
-/* 37 */
+/* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29931,7 +30051,7 @@ exports['default'] = handleKeyDown;
 module.exports = exports['default'];
 
 /***/ }),
-/* 38 */
+/* 39 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29979,7 +30099,7 @@ exports["default"] = injectedHTML;
 module.exports = exports["default"];
 
 /***/ }),
-/* 39 */
+/* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -30210,7 +30330,7 @@ exports['default'] = setParameters;
 module.exports = exports['default'];
 
 /***/ }),
-/* 40 */
+/* 41 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -30245,9 +30365,9 @@ var _sweetAlertInitialize$getModal$getOverlay$getInput$setFocusStyle$openModal$r
 
 // Handle button events and keyboard events
 
-var _handleButton$handleConfirm$handleCancel = __webpack_require__(36);
+var _handleButton$handleConfirm$handleCancel = __webpack_require__(37);
 
-var _handleKeyDown = __webpack_require__(37);
+var _handleKeyDown = __webpack_require__(38);
 
 var _handleKeyDown2 = _interopRequireWildcard(_handleKeyDown);
 
@@ -30257,7 +30377,7 @@ var _defaultParams = __webpack_require__(10);
 
 var _defaultParams2 = _interopRequireWildcard(_defaultParams);
 
-var _setParameters = __webpack_require__(39);
+var _setParameters = __webpack_require__(40);
 
 var _setParameters2 = _interopRequireWildcard(_setParameters);
 
@@ -30519,7 +30639,97 @@ if (typeof window !== 'undefined') {
 module.exports = exports['default'];
 
 /***/ }),
-/* 41 */
+/* 42 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var Component = __webpack_require__(43)(
+  /* script */
+  __webpack_require__(32),
+  /* template */
+  null,
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+Component.options.__file = "D:\\Web\\speed\\resources\\assets\\js\\components\\ServerPanel.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-4becc1e2", Component.options)
+  } else {
+    hotAPI.reload("data-v-4becc1e2", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 43 */
+/***/ (function(module, exports) {
+
+// this module is a runtime utility for cleaner component module output and will
+// be included in the final webpack user bundle
+
+module.exports = function normalizeComponent (
+  rawScriptExports,
+  compiledTemplate,
+  scopeId,
+  cssModules
+) {
+  var esModule
+  var scriptExports = rawScriptExports = rawScriptExports || {}
+
+  // ES6 modules interop
+  var type = typeof rawScriptExports.default
+  if (type === 'object' || type === 'function') {
+    esModule = rawScriptExports
+    scriptExports = rawScriptExports.default
+  }
+
+  // Vue.extend constructor export interop
+  var options = typeof scriptExports === 'function'
+    ? scriptExports.options
+    : scriptExports
+
+  // render functions
+  if (compiledTemplate) {
+    options.render = compiledTemplate.render
+    options.staticRenderFns = compiledTemplate.staticRenderFns
+  }
+
+  // scopedId
+  if (scopeId) {
+    options._scopeId = scopeId
+  }
+
+  // inject cssModules
+  if (cssModules) {
+    var computed = Object.create(options.computed || null)
+    Object.keys(cssModules).forEach(function (key) {
+      var module = cssModules[key]
+      computed[key] = function () { return module }
+    })
+    options.computed = computed
+  }
+
+  return {
+    esModule: esModule,
+    exports: scriptExports,
+    options: options
+  }
+}
+
+
+/***/ }),
+/* 44 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -40218,7 +40428,7 @@ module.exports = Vue$3;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(11)))
 
 /***/ }),
-/* 42 */
+/* 45 */
 /***/ (function(module, exports) {
 
 module.exports = function(module) {
@@ -40246,128 +40456,12 @@ module.exports = function(module) {
 
 
 /***/ }),
-/* 43 */
+/* 46 */
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(12);
 module.exports = __webpack_require__(13);
 
-
-/***/ }),
-/* 44 */,
-/* 45 */,
-/* 46 */,
-/* 47 */,
-/* 48 */,
-/* 49 */,
-/* 50 */,
-/* 51 */,
-/* 52 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var Component = __webpack_require__(53)(
-  /* script */
-  __webpack_require__(54),
-  /* template */
-  null,
-  /* scopeId */
-  null,
-  /* cssModules */
-  null
-)
-Component.options.__file = "D:\\Web\\speed\\resources\\assets\\js\\components\\ServerPanel.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-4becc1e2", Component.options)
-  } else {
-    hotAPI.reload("data-v-4becc1e2", Component.options)
-  }
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-/* 53 */
-/***/ (function(module, exports) {
-
-// this module is a runtime utility for cleaner component module output and will
-// be included in the final webpack user bundle
-
-module.exports = function normalizeComponent (
-  rawScriptExports,
-  compiledTemplate,
-  scopeId,
-  cssModules
-) {
-  var esModule
-  var scriptExports = rawScriptExports = rawScriptExports || {}
-
-  // ES6 modules interop
-  var type = typeof rawScriptExports.default
-  if (type === 'object' || type === 'function') {
-    esModule = rawScriptExports
-    scriptExports = rawScriptExports.default
-  }
-
-  // Vue.extend constructor export interop
-  var options = typeof scriptExports === 'function'
-    ? scriptExports.options
-    : scriptExports
-
-  // render functions
-  if (compiledTemplate) {
-    options.render = compiledTemplate.render
-    options.staticRenderFns = compiledTemplate.staticRenderFns
-  }
-
-  // scopedId
-  if (scopeId) {
-    options._scopeId = scopeId
-  }
-
-  // inject cssModules
-  if (cssModules) {
-    var computed = Object.create(options.computed || null)
-    Object.keys(cssModules).forEach(function (key) {
-      var module = cssModules[key]
-      computed[key] = function () { return module }
-    })
-    options.computed = computed
-  }
-
-  return {
-    esModule: esModule,
-    exports: scriptExports,
-    options: options
-  }
-}
-
-
-/***/ }),
-/* 54 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-    data: function data() {
-        return {
-
-            settingsOpen: false
-
-        };
-    }
-});
 
 /***/ })
 /******/ ]);
