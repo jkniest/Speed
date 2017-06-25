@@ -6,3 +6,11 @@
  */
 
 require('./bootstrap');
+
+window.Vue = require('vue');
+
+ Vue.component('server-panel', require('./components/ServerPanel.vue'));
+
+const app = new Vue({
+    el: '#app'
+});

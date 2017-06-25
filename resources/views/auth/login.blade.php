@@ -6,7 +6,7 @@
 
     <div id="login-panel" class="p1">
 
-        @component('partials.panel', ['title' => 'Login'])
+        @component('partials.components.panel', ['title' => 'Login'])
 
             @include('partials.auth.login-form')
 

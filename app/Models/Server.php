@@ -17,6 +17,13 @@ use Illuminate\Support\Facades\Cache;
 class Server extends Model
 {
     /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = ['name'];
+
+    /**
      * Find a server by it's token
      *
      * @param string $token The servers' token
