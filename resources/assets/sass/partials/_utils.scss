@@ -19,51 +19,6 @@ html {
   width:  100%;
 }
 
-@mixin flexbox {
-  display: -webkit-box; /* OLD - iOS 6-, Safari 3.1-6 */
-  display: -moz-box; /* OLD - Firefox 19- (buggy but mostly works) */
-  display: -ms-flexbox; /* TWEENER - IE 10 */
-  display: -webkit-flex; /* NEW - Chrome */
-  display: flex; /* NEW, Spec - Opera 12.1, Firefox 20+ */
-}
-
-@for $i from 1 through $unit-count {
-
-  .p#{$i} {
-    padding: $one-unit * $i;
-  }
-
-  .m#{$i}t {
-    margin-top: $one-unit * $i;
-  }
-
-  .m#{$i}l {
-    margin-left: $one-unit * $i;
-  }
-
-  .m#{$i}r {
-    margin-right: $one-unit * $i;
-  }
-
-  .m#{$i}b {
-    margin-bottom: $one-unit * $i;
-  }
-
-  @include mobile() {
-    .m#{$i}t-xs {
-      margin-top: $one-unit * $i !important;
-    }
-  }
-}
-
-.w100 {
-  width: 100%;
-}
-
-.is-clickable {
-  cursor: pointer;
-}
-
 @include mobile() {
   .level-mobile .level-item {
     margin-right: 0 !important;
