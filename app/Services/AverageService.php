@@ -30,7 +30,7 @@ class AverageService
      */
     public function __construct()
     {
-        $this->tests = Test::all();
+        $this->tests = Test::get();
     }
 
     /**

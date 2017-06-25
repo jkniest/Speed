@@ -5,6 +5,7 @@ namespace Tests\Feature\Api;
 use App\Models\Server;
 use App\Models\Test;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Support\Facades\Cache;
 use Tests\TestCase;
 
 class ServerTest extends TestCase
@@ -124,6 +125,24 @@ class ServerTest extends TestCase
         // Then: The response should have an error related to 'token'
         $response->assertStatus(422);
         $response->assertSee('token');
+    }
+
+    /** @test */
+    public function the_cache_should_be_cleared_when_a_server_is_deleted()
+    {
+        // Given: A server exists
+        $server = $this->create(Server::class);
+
+        // Given: A dummy data inside the cache
+        cache(['sample' => 'hello world'], 20);
+
+        // When: We delete the server
+        $this->deleteJson('/api/server', [
+            'token' => $server->token
+        ]);
+
+        // Then: The cache should be cleared
+        $this->assertFalse(cache()->has('sample'));
     }
 
 }

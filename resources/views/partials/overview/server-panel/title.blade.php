@@ -1,4 +1,4 @@
-<div class="level">
+<div class="level level-mobile">
 
     <div class="level-left">
 
@@ -6,13 +6,17 @@
 
             @icon(server)&nbsp;
 
-            @{{data.name}}&nbsp;
+        </div>
 
+        <div class="level-item">
+            @{{data.name}}&nbsp;
+        </div>
+
+        <div class="level-item">
             <small>
                 (Last test: {{Carbon\Carbon::parse($server->last_test)->format('d.m.Y H:m')}})
             </small>
-
-        </div> {{-- div.level-item --}}
+        </div>
 
     </div> {{-- div.level-left --}}
 
@@ -24,7 +28,7 @@
                 @icon(cog)
             </div>
 
-            <div class="is-clickable">
+            <div @click="destroy" class="is-clickable">
                 @icon(times)
             </div>
 

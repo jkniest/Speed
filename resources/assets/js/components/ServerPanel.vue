@@ -28,7 +28,10 @@
                 cancelBtn: null,
 
                 // The original content of the save button
-                originalSaveButtonContent: ''
+                originalSaveButtonContent: '',
+
+                // Is this panel destroyed / deleted?
+                destroyed: false
 
             };
         },
@@ -115,6 +118,39 @@
                 this.saveBtn.html(this.originalSaveButtonContent);
                 this.saveBtn.prop('disabled', false);
                 this.cancelBtn.prop('disabled', false);
+            },
+
+            /**
+             * Send a DELETE request to the api.
+             */
+            destroy()
+            {
+                let self = this;
+
+                swal({
+                    title: 'Are you sure?',
+                    text: 'You will not be able to recover this server!',
+                    type: 'warning',
+                    showCancelButton: true,
+                    showLoaderOnConfirm: true,
+                    closeOnConfirm: false
+                }, function ()
+                {
+                    console.dir(self.data.token);
+                    axios.delete('/api/server', {
+                        params: {token: self.data.token}
+                    }).then(() =>
+                    {
+                        self.destroyed = true;
+
+                        swal('Yeah!', 'The server is removed!', 'success');
+
+                    }).catch(errors =>
+                    {
+                        self.originalSaveButtonContent = self.saveBtn.html();
+                        self.onError(errors.response.data);
+                    });
+                });
             }
 
         }

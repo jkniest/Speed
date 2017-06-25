@@ -2,31 +2,35 @@
 
     <server-panel inline-template :server="{{$server}}">
 
-        @component('partials.components.panel')
+        <div v-if="!destroyed" class="m2t">
 
-            @slot('title')
+            @component('partials.components.panel')
 
-                @include('partials.overview.server-panel.title')
+                @slot('title')
 
-            @endslot {{-- slot: title --}}
+                    @include('partials.overview.server-panel.title')
 
-            {{-- Average stats: Default view --}}
-            <div class="w100" v-show="!settingsOpen">
-                @include('partials.components.double-panel', [
-                    'download' => $server->getAverageDownload(),
-                    'upload' => $server->getAverageUpload(),
-                    'id' => $server->id,
-                    'timeDownload' => $server->getAverageDownloadArray(),
-                    'timeUpload' => $server->getAverageUploadArray()
-                ])
-            </div>
+                @endslot {{-- slot: title --}}
 
-            {{-- Settings panel --}}
-            <div v-show="settingsOpen" class="w100">
-                @include('partials.components.settings-panel')
-            </div>
+                {{-- Average stats: Default view --}}
+                <div class="w100" v-show="!settingsOpen">
+                    @include('partials.components.double-panel', [
+                        'download' => $server->getAverageDownload(),
+                        'upload' => $server->getAverageUpload(),
+                        'id' => $server->id,
+                        'timeDownload' => $server->getAverageDownloadArray(),
+                        'timeUpload' => $server->getAverageUploadArray()
+                    ])
+                </div>
 
-        @endcomponent {{-- component: panel --}}
+                {{-- Settings panel --}}
+                <div v-show="settingsOpen" class="w100">
+                    @include('partials.components.settings-panel')
+                </div>
+
+            @endcomponent {{-- component: panel --}}
+
+        </div>
 
     </server-panel>
 

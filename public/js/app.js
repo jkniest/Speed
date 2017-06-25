@@ -2155,7 +2155,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             cancelBtn: null,
 
             // The original content of the save button
-            originalSaveButtonContent: ''
+            originalSaveButtonContent: '',
+
+            // Is this panel destroyed / deleted?
+            destroyed: false
 
         };
     },
@@ -2247,6 +2250,35 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.saveBtn.html(this.originalSaveButtonContent);
             this.saveBtn.prop('disabled', false);
             this.cancelBtn.prop('disabled', false);
+        },
+
+
+        /**
+         * Send a DELETE request to the api.
+         */
+        destroy: function destroy() {
+            var self = this;
+
+            swal({
+                title: 'Are you sure?',
+                text: 'You will not be able to recover this server!',
+                type: 'warning',
+                showCancelButton: true,
+                showLoaderOnConfirm: true,
+                closeOnConfirm: false
+            }, function () {
+                console.dir(self.data.token);
+                axios.delete('/api/server', {
+                    params: { token: self.data.token }
+                }).then(function () {
+                    self.destroyed = true;
+
+                    swal('Yeah!', 'The server is removed!', 'success');
+                }).catch(function (errors) {
+                    self.originalSaveButtonContent = self.saveBtn.html();
+                    self.onError(errors.response.data);
+                });
+            });
         }
     }
 

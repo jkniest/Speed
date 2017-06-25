@@ -63,3 +63,9 @@ html {
 .is-clickable {
   cursor: pointer;
 }
+
+@include mobile() {
+  .level-mobile .level-item {
+    margin-right: 0 !important;
+  }
+}
