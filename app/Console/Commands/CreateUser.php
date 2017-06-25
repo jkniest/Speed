@@ -52,6 +52,7 @@ class CreateUser extends Command
         $user = new User();
         $user->name = $username;
         $user->password = Hash::make($password);
+        $user->token = str_random();
         $user->save();
 
         $this->info("User {$username} created!");

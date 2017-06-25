@@ -15,5 +15,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('result', 'TestController@store')->name('api.result');
 
+Route::post('server', 'ServerController@store');
 Route::patch('server', 'ServerController@update');
 Route::delete('server', 'ServerController@destroy');

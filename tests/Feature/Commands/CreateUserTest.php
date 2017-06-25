@@ -38,7 +38,11 @@ class CreateUserTest extends TestCase
         // Also: The password should be hashed
         tap(User::whereName('my-name')->firstOrFail(), function ($user) {
             $this->assertTrue(Hash::check('secret', $user->password));
+
+            // And: A random token should be generated
+            $this->assertNotNull($user->token);
         });
+
     }
 
     /** @test */
