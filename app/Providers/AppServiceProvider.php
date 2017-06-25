@@ -34,6 +34,10 @@ class AppServiceProvider extends ServiceProvider
         Blade::directive('iconSmall', function ($expression) {
             return Icon::render($expression, 'small');
         });
+
+        Blade::directive('iconLarge', function ($expression) {
+            return Icon::render($expression, 'large');
+        });
     }
 
     /**

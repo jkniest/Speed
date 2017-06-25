@@ -8,6 +8,8 @@
 
         @include('partials.overview.server-list')
 
+        @include('partials.overview.create-server')
+
         @include('partials.overview.footer')
 
     </div>
