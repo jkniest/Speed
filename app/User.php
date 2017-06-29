@@ -2,9 +2,18 @@
 
 namespace App;
 
-use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 
+/**
+ * The representation of the user
+ *
+ * @category Auth
+ * @package  Speed
+ * @author   Jordan Kniest <contact@jkniest.de>
+ * @license  MIT <https://opensource.org/licenses/MIT>
+ * @link     https://jkniest.de
+ */
 class User extends Authenticatable
 {
     use Notifiable;

@@ -1,6 +1,6 @@
 <?php
 
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +13,8 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
+Route::post('result', 'TestController@store')->name('api.result');
+
+Route::post('server', 'ServerController@store');
+Route::patch('server', 'ServerController@update');
+Route::delete('server', 'ServerController@destroy');

@@ -2,9 +2,17 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\Facades\Event;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
+/**
+ * Handle all events and event listener
+ *
+ * @category Core
+ * @package  Speed
+ * @author   Jordan Kniest <contact@jkniest.de>
+ * @license  MIT <https://opensource.org/licenses/MIT>
+ * @link     https://jkniest.de
+ */
 class EventServiceProvider extends ServiceProvider
 {
     /**
@@ -26,7 +34,6 @@ class EventServiceProvider extends ServiceProvider
     public function boot()
     {
         parent::boot();
-
         //
     }
 }

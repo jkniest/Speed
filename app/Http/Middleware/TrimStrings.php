@@ -4,6 +4,15 @@ namespace App\Http\Middleware;
 
 use Illuminate\Foundation\Http\Middleware\TrimStrings as BaseTrimmer;
 
+/**
+ * Trim all input strings
+ *
+ * @category Core
+ * @package  Speed
+ * @author   Jordan Kniest <contact@jkniest.de>
+ * @license  MIT <https://opensource.org/licenses/MIT>
+ * @link     https://jkniest.de
+ */
 class TrimStrings extends BaseTrimmer
 {
     /**

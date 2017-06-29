@@ -1,0 +1,26 @@
+// body#body-login
+// #body-login #app
+body#body-login,
+#body-login #app {
+  height:  100%;
+  width:   100%;
+
+  padding: 0;
+  margin:  0;
+
+  // #body-login #app > .container
+  #app > .container {
+    height: 100%;
+  }
+}
+
+html {
+  height: 100%;
+  width:  100%;
+}
+
+@include mobile() {
+  .level-mobile .level-item {
+    margin-right: 0 !important;
+  }
+}
