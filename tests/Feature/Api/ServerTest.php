@@ -127,24 +127,6 @@ class ServerTest extends TestCase
     }
 
     /** @test */
-    public function the_cache_should_be_cleared_when_a_server_is_deleted()
-    {
-        // Given: A server exists
-        $server = $this->create(Server::class);
-
-        // Given: A dummy data inside the cache
-        cache(['sample' => 'hello world'], 20);
-
-        // When: We delete the server
-        $this->deleteJson('/api/server', [
-            'token' => $server->token
-        ]);
-
-        // Then: The cache should be cleared
-        $this->assertFalse(cache()->has('sample'));
-    }
-
-    /** @test */
     public function a_server_can_be_created()
     {
         // Given: A user exists with a token

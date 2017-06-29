@@ -105,28 +105,11 @@ class Server extends Model
      */
     private function getAverage(string $field, $hour = null)
     {
-        $key = $this->getCacheKey($field, $hour);
-
-        return Cache::remember($key, 60, function () use ($field, $hour) {
-            return round(
-                $this->tests->filter(function ($test) use ($hour) {
-                    return ($hour == null) ? true : $hour == $test->created_at->hour;
-                })->pluck("{$field}_speed")
-                    ->avg()
-            );
-        });
-    }
-
-    /**
-     * Get the key for caching based on the server id and field name
-     *
-     * @param string   $field The field name
-     * @param int|null $hour  The specific hour
-     *
-     * @return string
-     */
-    private function getCacheKey(string $field, $hour = null)
-    {
-        return "average-{$this->id}-{$field}" . (($hour != null) ? '-' . $hour : '');
+        return round(
+            $this->tests->filter(function ($test) use ($hour) {
+                return ($hour == null) ? true : $hour == $test->created_at->hour;
+            })->pluck("{$field}_speed")
+                ->avg()
+        );
     }
 }
