@@ -65,7 +65,5 @@ class ServerController extends Controller
             $server->delete();
             $server->tests()->delete();
         });
-
-        cache()->flush();
     }
 }
