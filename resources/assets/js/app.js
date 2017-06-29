@@ -9,7 +9,8 @@ require('./bootstrap');
 
 window.Vue = require('vue');
 
- Vue.component('server-panel', require('./components/ServerPanel.vue'));
+Vue.component('server-panel', require('./components/ServerPanel.vue'));
+Vue.component('new-server', require('./components/NewServer.vue'));
 
 const app = new Vue({
     el: '#app'

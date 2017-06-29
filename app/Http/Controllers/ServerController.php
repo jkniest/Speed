@@ -16,6 +16,24 @@ use App\Models\Server;
 class ServerController extends Controller
 {
     /**
+     * Store a new server inside the database.
+     *
+     * @return void
+     */
+    public function store()
+    {
+        $this->validate(request(), [
+            'name'  => 'required',
+            'token' => 'required|exists:users'
+        ]);
+
+        Server::create([
+            'name'  => request('name'),
+            'token' => str_random()
+        ]);
+    }
+
+    /**
      * Update the name of the server
      *
      * @return void

@@ -21,7 +21,7 @@ class Server extends Model
      *
      * @var array
      */
-    protected $fillable = ['name'];
+    protected $fillable = ['name', 'token'];
 
     /**
      * Find a server by it's token

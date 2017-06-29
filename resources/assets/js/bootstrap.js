@@ -36,4 +36,12 @@ if (token) {
 }
 
 
+let userToken = document.head.querySelector('meta[name="user-token"]');
+
+if (token) {
+    window.userToken = userToken.content;
+}
+
+
 window.swal = require('sweetalert');
+window.chance = require('chance');

@@ -5,7 +5,6 @@ namespace Tests\Feature\Api;
 use App\Models\Server;
 use App\Models\Test;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Support\Facades\Cache;
 use Tests\TestCase;
 
 class ServerTest extends TestCase
@@ -145,4 +144,79 @@ class ServerTest extends TestCase
         $this->assertFalse(cache()->has('sample'));
     }
 
+    /** @test */
+    public function a_server_can_be_created()
+    {
+        // Given: A user exists with a token
+        $this->create(\App\User::class, ['token' => 'my-token']);
+
+        // When: We try to create a server
+        $this->postJson('/api/server', [
+            'token' => 'my-token',
+            'name'  => 'My new cool server'
+        ]);
+
+        // Then: The server should be created
+        $this->assertDatabaseHas('servers', [
+            'name' => 'My new cool server'
+        ]);
+    }
+
+    /** @test */
+    public function a_name_is_required_to_create_a_server()
+    {
+        $this->withExceptionHandling();
+
+        // Given: A user exists with a token
+        $this->create(\App\User::class, ['token' => 'my-token']);
+
+        // When: We try to create a server without a name
+        $response = $this->postJson('/api/server', [
+            'token' => 'my-token'
+        ]);
+
+        // Then: The server should not be created
+        $this->assertEquals(0, Server::count());
+
+        // And: The response status should be 422 (error related to name)
+        $response->assertStatus(422);
+        $response->assertSee('name');
+    }
+
+    /** @test */
+    public function a_token_is_required_to_create_a_server()
+    {
+        $this->withExceptionHandling();
+
+        // When: We try to create a server without a token
+        $response = $this->postJson('/api/server', [
+            'name' => 'My cool new server'
+        ]);
+
+        // Then: The server should not be created
+        $this->assertEquals(0, Server::count());
+
+        // And: The response status should be 422 (error related to token)
+        $response->assertStatus(422);
+        $response->assertSee('token');
+    }
+
+    /** @test */
+    public function a_valid_token_is_required_to_create_a_server()
+    {
+        $this->withExceptionHandling();
+
+        // When: We try to create a server with an invalid token
+        $response = $this->postJson('/api/server', [
+            'name'  => 'My cool new server',
+            'token' => 'invalid'
+        ]);
+
+        // Then: The server should not be created
+        $this->assertEquals(0, Server::count());
+
+        // And: The response status should be 422 (error related to token)
+        $response->assertStatus(422);
+        $response->assertSee('token');
+    }
 }

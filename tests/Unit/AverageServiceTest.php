@@ -36,40 +36,6 @@ class AverageServiceTest extends TestCase
     }
 
     /** @test */
-    public function it_can_cache_the_average_down_speed()
-    {
-        // Given: A single server with two speed tests: 100.000, 240.000
-        $server = $this->create(Server::class);
-        collect([100000, 240000])
-            ->each(function ($speed) use ($server) {
-                DB::table('tests')->insert([
-                    'server_id'  => $server->id,
-                    'down_speed' => $speed,
-                    'up_speed'   => 1
-                ]);
-            });
-
-        // When: We fetch the average down speed
-        $downSpeed = app(AverageService::class)->getDown();
-
-        // Then: The average speed should be 170.000
-        $this->assertEquals(170000, $downSpeed);
-
-        // Given: Another speedtest is added
-        DB::table('tests')->insert([
-            'server_id'  => $server->id,
-            'down_speed' => '213000',
-            'up_speed'   => 1
-        ]);
-
-        // When: We fetch the average down speed again
-        $downSpeed = app(AverageService::class)->getDown();
-
-        // Then: The average speed should be 170.000 (cached)
-        $this->assertEquals(170000, $downSpeed);
-    }
-
-    /** @test */
     public function it_can_return_the_average_up_speed()
     {
         // Given: A single server with thee speed tests: 25.000, 11.000, 3.000
@@ -89,40 +55,6 @@ class AverageServiceTest extends TestCase
 
         // Then: The average speed should be 13.000
         $this->assertEquals(13000, $upSpeed);
-    }
-
-    /** @test */
-    public function it_can_cache_the_average_up_speed()
-    {
-        // Given: A single server with two speed tests: 25.000, 11.000
-        $server = $this->create(Server::class);
-        collect([25000, 11000])
-            ->each(function ($speed) use ($server) {
-                DB::table('tests')->insert([
-                    'server_id'  => $server->id,
-                    'down_speed' => 1,
-                    'up_speed'   => $speed
-                ]);
-            });
-
-        // When: We fetch the average up speed
-        $upSpeed = app(AverageService::class)->getUp();
-
-        // Then: The average speed should be 18.000
-        $this->assertEquals(18000, $upSpeed);
-
-        // Given: Another speedtest is added
-        DB::table('tests')->insert([
-            'server_id'  => $server->id,
-            'down_speed' => 1,
-            'up_speed'   => 12000
-        ]);
-
-        // When: We fetch the average up speed again
-        $upSpeed = app(AverageService::class)->getUp();
-
-        // Then: The average speed should be 18.000 (cached)
-        $this->assertEquals(18000, $upSpeed);
     }
 
     /** @test */
