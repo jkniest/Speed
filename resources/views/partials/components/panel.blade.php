@@ -18,4 +18,6 @@
 
     </div> {{-- div.panel-block --}}
 
+    {{isset($beneath) ? $beneath : ''}}
+
 </div> {{-- div.panel --}}
