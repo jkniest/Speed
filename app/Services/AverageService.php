@@ -68,7 +68,7 @@ class AverageService
     {
         return round(
             $this->tests->filter(function ($test) use ($hour) {
-                return ($hour == null) ? true : $test->created_at->hour == $hour;
+                return (is_null($hour)) ? true : $test->created_at->hour == $hour;
             })->pluck("{$field}_speed")
                 ->avg()
         );
