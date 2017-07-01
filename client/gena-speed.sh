@@ -64,6 +64,7 @@ setToken() {
 }
 
 executeSpeedtest() {
+    ${folderPath}/speedtest-cli
     result=$(${folderPath}/speedtest-cli --simple)
     echo "$result"
 }
