@@ -14,7 +14,7 @@
 
         <div class="level-item">
             <small>
-                (Last test: {{Carbon\Carbon::parse($server->last_test)->format('d.m.Y H:m')}})
+                (Last test: {{Carbon\Carbon::parse($server->last_test)->format('d.m.Y H:i')}})
             </small>
         </div>
 

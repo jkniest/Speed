@@ -10,6 +10,10 @@
 
             @include('partials.auth.login-form')
 
+            @slot('beneath')
+                @include('partials.overview.footer')
+            @endslot
+
         @endcomponent
 
     </div> {{-- div#login-panel --}}
