@@ -107,7 +107,7 @@ class Server extends Model
     {
         return round(
             $this->tests->filter(function ($test) use ($hour) {
-                return ($hour == null) ? true : $hour == $test->created_at->hour;
+                return (is_null($hour)) ? true : $hour == $test->created_at->hour;
             })->pluck("{$field}_speed")
                 ->avg()
         );
