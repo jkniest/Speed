@@ -72,7 +72,7 @@ executeSpeedtest() {
 getDownloadSpeed() {
     echo "Extracting download speed.."
     download=$(echo "${result}" | grep -Poi "Download: \K([0-9]+\.[0-9]+)")
-    download=$(echo "${download//.}")
+    download=$(echo "${download//.}0")
 
     echo "Download speed: ${download}"
 }
@@ -80,7 +80,7 @@ getDownloadSpeed() {
 getUploadSpeed() {
     echo "Extracting upload speed.."
     upload=$(echo "${result}" | grep -Poi "Upload: \K([0-9]+\.[0-9]+)")
-    upload=$(echo "${upload//.}")
+    upload=$(echo "${upload//.}0")
 
     echo "Upload speed: ${upload}"
 }
