@@ -23,17 +23,17 @@ class SpeedtestTest extends TestCase
             'up'    => '120000',
             'down'  => '500000'
         ]);
+        $date = Carbon::now();
 
         // Then: A new test should be added
         $this->assertDatabaseHas('tests', [
             'server_id'  => $server->id,
             'down_speed' => '500000',
-            'up_speed'   => '120000',
-            'created_at' => Carbon::now()->toDateTimeString()
+            'up_speed'   => '120000'
         ]);
 
         // And: The last test should be makred inside the server
-        $this->assertEquals(Carbon::now(), $server->fresh()->last_test);
+        $this->assertEquals($date, $server->fresh()->last_test);
     }
 
     /** @test */
